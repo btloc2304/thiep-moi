@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thiệp Mời Họp Lớp Đầu Xuân</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --red-deep: #8b0000;
+        --red-main: #c62828;
+        --red-bright: #e53935;
+        --gold-main: #d4a853;
+        --gold-light: #f0d68a;
+        --gold-pale: #fff8e7;
+        --cream: #fdf6ec;
+        --dark: #1a0a0a;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--dark);
+        font-family: "Be Vietnam Pro", sans-serif;
+        padding: 20px;
+        overflow-x: hidden;
+      }
+
+      .card {
+        width: 420px;
+        max-width: 100%;
+        background: linear-gradient(
+          165deg,
+          #1a0505 0%,
+          #2a0808 30%,
+          #3d0c0c 60%,
+          #1a0505 100%
+        );
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+          0 0 60px rgba(198, 40, 40, 0.15),
+          0 25px 80px rgba(0, 0, 0, 0.6),
+          inset 0 1px 0 rgba(212, 168, 83, 0.15);
+      }
+
+      /* === Decorative border === */
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border: 1px solid rgba(212, 168, 83, 0.2);
+        border-radius: 16px;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 12px;
+        border: 1px solid rgba(212, 168, 83, 0.08);
+        border-radius: 12px;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* === Ambient glow === */
+      .glow-top {
+        position: absolute;
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        height: 250px;
+        background: radial-gradient(
+          ellipse,
+          rgba(212, 168, 83, 0.12) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .glow-bottom {
+        position: absolute;
+        bottom: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 350px;
+        height: 200px;
+        background: radial-gradient(
+          ellipse,
+          rgba(198, 40, 40, 0.1) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* === Content sections === */
+      .content {
+        position: relative;
+        z-index: 1;
+        padding: 40px 32px 36px;
+      }
+
+      /* === Top ornament === */
+      .ornament-top {
+        text-align: center;
+        margin-bottom: 8px;
+        opacity: 0;
+        animation: fadeDown 0.8s 0.2s forwards;
+      }
+
+      .ornament-line {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+
+      .ornament-line span {
+        width: 50px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold-main),
+          transparent
+        );
+      }
+
+      .ornament-line .diamond {
+        width: 6px;
+        height: 6px;
+        background: var(--gold-main);
+        transform: rotate(45deg);
+        flex-shrink: 0;
+      }
+
+      /* === Year badge === */
+      .year-badge {
+        text-align: center;
+        margin-bottom: 6px;
+        opacity: 0;
+        animation: scaleIn 0.6s 0.4s forwards;
+      }
+
+      .year-text {
+        font-family: "Playfair Display", serif;
+        font-size: 13px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--gold-main);
+        font-weight: 400;
+      }
+
+      /* === Main heading === */
+      .heading {
+        text-align: center;
+        margin-bottom: 4px;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.5s forwards;
+      }
+
+      .heading h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 44px;
+        font-weight: 900;
+        line-height: 1.1;
+        background: linear-gradient(
+          180deg,
+          var(--gold-light) 0%,
+          var(--gold-main) 50%,
+          #b8863a 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 2px 8px rgba(212, 168, 83, 0.25));
+      }
+
+      .heading .sub {
+        font-family: "Be Vietnam Pro", sans-serif;
+        font-size: 12px;
+        letter-spacing: 5px;
+        color: rgba(212, 168, 83, 0.5);
+        text-transform: uppercase;
+        margin-top: 4px;
+        font-weight: 400;
+      }
+
+      /* === Emoji accent === */
+      .emoji-row {
+        text-align: center;
+        font-size: 28px;
+        margin: 14px 0 18px;
+        opacity: 0;
+        animation: fadeUp 0.6s 0.7s forwards;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+      }
+
+      /* === Divider === */
+      .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 16px 0;
+        opacity: 0;
+        animation: fadeIn 0.6s 0.8s forwards;
+      }
+
+      .divider .line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(212, 168, 83, 0.3),
+          transparent
+        );
+      }
+
+      .divider .icon {
+        font-size: 14px;
+        color: var(--gold-main);
+        opacity: 0.6;
+      }
+
+      /* === Invitation text === */
+      .invite-text {
+        text-align: center;
+        color: rgba(255, 248, 231, 0.7);
+        font-size: 14px;
+        line-height: 1.7;
+        font-weight: 300;
+        margin-bottom: 24px;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.9s forwards;
+      }
+
+      .invite-text strong {
+        color: var(--gold-light);
+        font-weight: 600;
+      }
+
+      /* === Info cards === */
+      .info-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+        opacity: 0;
+        animation: fadeUp 0.8s 1s forwards;
+      }
+
+      .info-item {
+        background: rgba(212, 168, 83, 0.05);
+        border: 1px solid rgba(212, 168, 83, 0.12);
+        border-radius: 12px;
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .info-item:hover {
+        background: rgba(212, 168, 83, 0.08);
+        border-color: rgba(212, 168, 83, 0.2);
+        transform: translateX(4px);
+      }
+
+      .info-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          rgba(198, 40, 40, 0.2),
+          rgba(212, 168, 83, 0.15)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+
+      .info-details {
+        flex: 1;
+      }
+
+      .info-label {
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(212, 168, 83, 0.5);
+        margin-bottom: 3px;
+        font-weight: 500;
+      }
+
+      .info-value {
+        font-size: 14px;
+        color: var(--gold-pale);
+        font-weight: 500;
+        line-height: 1.4;
+      }
+
+      .info-value .highlight {
+        color: var(--gold-main);
+        font-weight: 600;
+      }
+
+      /* === Quote === */
+      .quote-section {
+        text-align: center;
+        margin-bottom: 22px;
+        opacity: 0;
+        animation: fadeUp 0.8s 1.1s forwards;
+      }
+
+      .quote-text {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 14px;
+        color: rgba(240, 214, 138, 0.45);
+        line-height: 1.6;
+      }
+
+      /* === Signature === */
+      .signature {
+        text-align: center;
+        opacity: 0;
+        animation: fadeUp 0.8s 1.2s forwards;
+      }
+
+      .sig-line {
+        width: 40px;
+        height: 1px;
+        background: var(--gold-main);
+        margin: 0 auto 12px;
+        opacity: 0.4;
+      }
+
+      .sig-role {
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(212, 168, 83, 0.4);
+        margin-bottom: 4px;
+        font-weight: 400;
+      }
+
+      .sig-name {
+        font-family: "Playfair Display", serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--gold-main);
+      }
+
+      .sig-title {
+        font-size: 11px;
+        color: rgba(255, 248, 231, 0.35);
+        margin-top: 2px;
+        font-weight: 300;
+      }
+
+      /* === Corner decorations === */
+      .corner {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        z-index: 3;
+        opacity: 0.3;
+      }
+
+      .corner::before,
+      .corner::after {
+        content: "";
+        position: absolute;
+        background: var(--gold-main);
+      }
+
+      .corner-tl {
+        top: 18px;
+        left: 18px;
+      }
+      .corner-tl::before {
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 1px;
+      }
+      .corner-tl::after {
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 20px;
+      }
+
+      .corner-tr {
+        top: 18px;
+        right: 18px;
+      }
+      .corner-tr::before {
+        top: 0;
+        right: 0;
+        width: 20px;
+        height: 1px;
+      }
+      .corner-tr::after {
+        top: 0;
+        right: 0;
+        width: 1px;
+        height: 20px;
+      }
+
+      .corner-bl {
+        bottom: 18px;
+        left: 18px;
+      }
+      .corner-bl::before {
+        bottom: 0;
+        left: 0;
+        width: 20px;
+        height: 1px;
+      }
+      .corner-bl::after {
+        bottom: 0;
+        left: 0;
+        width: 1px;
+        height: 20px;
+      }
+
+      .corner-br {
+        bottom: 18px;
+        right: 18px;
+      }
+      .corner-br::before {
+        bottom: 0;
+        right: 0;
+        width: 20px;
+        height: 1px;
+      }
+      .corner-br::after {
+        bottom: 0;
+        right: 0;
+        width: 1px;
+        height: 20px;
+      }
+
+      /* === Floating particles === */
+      .particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: var(--gold-main);
+        opacity: 0;
+        animation: float 6s infinite;
+      }
+
+      .particle:nth-child(1) {
+        left: 10%;
+        top: 20%;
+        animation-delay: 0s;
+        animation-duration: 7s;
+      }
+      .particle:nth-child(2) {
+        left: 85%;
+        top: 15%;
+        animation-delay: 1s;
+        animation-duration: 5s;
+      }
+      .particle:nth-child(3) {
+        left: 25%;
+        top: 70%;
+        animation-delay: 2s;
+        animation-duration: 8s;
+      }
+      .particle:nth-child(4) {
+        left: 75%;
+        top: 80%;
+        animation-delay: 0.5s;
+        animation-duration: 6s;
+      }
+      .particle:nth-child(5) {
+        left: 50%;
+        top: 40%;
+        animation-delay: 3s;
+        animation-duration: 7s;
+        width: 2px;
+        height: 2px;
+      }
+      .particle:nth-child(6) {
+        left: 15%;
+        top: 50%;
+        animation-delay: 1.5s;
+        animation-duration: 9s;
+        width: 2px;
+        height: 2px;
+      }
+      .particle:nth-child(7) {
+        left: 90%;
+        top: 55%;
+        animation-delay: 4s;
+        animation-duration: 6s;
+      }
+      .particle:nth-child(8) {
+        left: 60%;
+        top: 10%;
+        animation-delay: 2.5s;
+        animation-duration: 8s;
+        width: 2px;
+        height: 2px;
+      }
+
+      /* === Animations === */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          opacity: 0;
+          transform: translateY(0) scale(1);
+        }
+        10% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 0.3;
+          transform: translateY(-30px) scale(1.2);
+        }
+        90% {
+          opacity: 0.5;
+        }
+      }
+
+      /* === Noise texture overlay === */
+      .noise {
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: 5;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      }
+
+      /* === Responsive === */
+      @media (max-width: 460px) {
+        body {
+          padding: 12px;
+        }
+        .content {
+          padding: 32px 24px 28px;
+        }
+        .heading h1 {
+          font-size: 36px;
+        }
+        .info-item {
+          padding: 12px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="noise"></div>
+      <div class="glow-top"></div>
+      <div class="glow-bottom"></div>
+
+      <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
+
+      <div class="content">
+        <div class="ornament-top">
+          <div class="ornament-line">
+            <span></span>
+            <div class="diamond"></div>
+            <span></span>
+          </div>
+        </div>
+
+        <div class="year-badge">
+          <span class="year-text">Xuân Bính Ngọ 2026</span>
+        </div>
+
+        <div class="heading">
+          <h1>Họp Lớp<br />Đầu Xuân</h1>
+          <div class="sub">Class Reunion</div>
+        </div>
+
+        <div class="emoji-row">🧧 🎊 🍻</div>
+
+        <div class="divider">
+          <div class="line"></div>
+          <div class="icon">✦</div>
+          <div class="line"></div>
+        </div>
+
+        <div class="invite-text">
+          Trân trọng kính mời <strong>toàn thể anh chị em</strong> cùng tụ họp
+          đầu năm — ôn lại chuyện cũ, cười cho đã, ăn ngon uống vui và nói
+          chuyện tới bến!
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-icon">📅</div>
+            <div class="info-details">
+              <div class="info-label">Thời gian</div>
+              <div class="info-value">
+                <span class="highlight">16:00</span> — Mùng 2 Tết Âm Lịch
+              </div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div class="info-details">
+              <div class="info-label">Địa điểm</div>
+              <div class="info-value">
+                Nhà hàng <span class="highlight">Hải Yến</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">💰</div>
+            <div class="info-details">
+              <div class="info-label">Kinh phí</div>
+              <div class="info-value">
+                Thông báo sau — <span class="highlight">cứ đến là vui!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-section">
+          <div class="quote-text">
+            "Thiếu một người là mất không khí liền —<br />đừng để lớp trưởng
+            phải đi triệu tập nhé!"
+          </div>
+        </div>
+
+        <div class="divider">
+          <div class="line"></div>
+          <div class="icon">✦</div>
+          <div class="line"></div>
+        </div>
+
+        <div class="signature">
+          <div class="sig-line"></div>
+          <div class="sig-role">Thân mời</div>
+          <div class="sig-name">Lộc</div>
+          <div class="sig-title">Lớp Trưởng</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
